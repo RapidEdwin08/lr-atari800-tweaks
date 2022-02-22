@@ -504,10 +504,12 @@ rm /dev/shm/lr-atari800-runcommand-onstart -R -f 2>/dev/null
 # wget https://raw.githubusercontent.com/raphkoster/lr-atari800-runcommand-onstart/main/runcommand-onstart.sh
 git clone "https://github.com/raphkoster/lr-atari800-runcommand-onstart.git"
 
-# Apply Updates for RetroPie 4.7.1 (202202)
+# Apply Updates for RetroPie 4.7.1 (202202) If Needed
 cd /dev/shm/lr-atari800-runcommand-onstart
 wget https://raw.githubusercontent.com/RapidEdwin08/lr-atari800-tweaks/main/runcommand-onstart.diff
-git apply "/dev/shm/lr-atari800-runcommand-onstart/runcommand-onstart.diff"
+if [ "$(cat /dev/shm/lr-atari800-runcommand-onstart/runcommand-onstart.sh | grep -q '# \[202202\] Updated to include all x3 \[retroarch-core-options.cfg\] Locations:' ; echo $?)" == '1' ]; then
+	git apply "/dev/shm/lr-atari800-runcommand-onstart/runcommand-onstart.diff"
+fi
 
 # Install *Updated* [lr-atari800-runcommand-onstart] by {raphkoster}
 mv runcommand-onstart.sh /opt/retropie/configs/atari800/
