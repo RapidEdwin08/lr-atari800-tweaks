@@ -12,7 +12,7 @@ echo "PLACE YOUR [atari800] BIOS Files in [~/RetroPie/BIOS]* "
 echo "[5200.rom ATARIXL.ROM ATARIBAS.ROM ATARIOSA.ROM ATARIOSB.ROM]"
 echo "[        BASIC Revision A (19xx)(Atari)(400-800).rom        ]"
 echo ""
-echo " [lr-atari800-runcommand-onstart] {raphkoster} (*Updated 202202*)"
+echo " [lr-atari800-runcommand-onstart] {raphkoster} (*Updated 202203*)"
 echo "Script that configures lr-atari800 for OSa, BASIC, artifacting, and PAL"
 )
 
@@ -57,7 +57,7 @@ echo ""
 echo ' [retroarch.cfg] Settings [Segmentation fault Fix for RetroPie v4.7.1]:'
 echo 'menu_enable_widgets = false'
 echo ""
-echo " [lr-atari800-runcommand-onstart] {raphkoster} (*Updated 202202*)"
+echo " [lr-atari800-runcommand-onstart] {raphkoster} (*Updated 202203*)"
 echo "A helper script that automatically reconfigures lr-atari800 for OSa, BASIC, artifacting, and PAL"
 echo ""
 echo "Ensure that your Atari 8-bit roms follow the naming convention..."
@@ -112,7 +112,7 @@ echo '   ~/RetroPie/BIOS/BASIC Revision A (19xx)(Atari)(400-800).rom'
 
 atariRUNref=$(
 echo ""
-echo " [lr-atari800-runcommand-onstart] {raphkoster} (*Updated 202202*)"
+echo " [lr-atari800-runcommand-onstart] {raphkoster} (*Updated 202203*)"
 echo "A helper script that automatically reconfigures lr-atari800 for OSa, BASIC, artifacting, and PAL"
 echo ""
 echo "Ensure that your Atari 8-bit roms follow the naming convention..."
@@ -271,7 +271,7 @@ if [ ! -f /opt/retropie/configs/atari800/lr-atari800.cfg ]; then
 	dialog --no-collapse --title "***N0TICE*** [lr-atari800.cfg] NOT FOUND!" --ok-label MENU --msgbox "$atariLR"  25 75
 fi
 # Confirm Configurations
-confCONFIG=$(dialog --stdout --no-collapse --title "[lr-atari800] Tweaks for [RetroPie <=4.7.1] by: RapidEdwin08 [202202]" \
+confCONFIG=$(dialog --stdout --no-collapse --title "[lr-atari800] Tweaks for [RetroPie <=4.7.1] by: RapidEdwin08 [202203]" \
 	--ok-label OK --cancel-label EXIT \
 	--menu "$scriptREF" 25 75 20 \
 	1 "><  APPLY    [lr-atari800] Tweaks for [RetroPie <=4.7.1]  ><" \
@@ -504,12 +504,10 @@ rm /dev/shm/lr-atari800-runcommand-onstart -R -f 2>/dev/null
 # wget https://raw.githubusercontent.com/raphkoster/lr-atari800-runcommand-onstart/main/runcommand-onstart.sh
 git clone "https://github.com/raphkoster/lr-atari800-runcommand-onstart.git"
 
-# Apply Updates for RetroPie 4.7.1 (202202) If Needed
+# Apply Updates for RetroPie 4.7.1 (202203) If Needed
 cd /dev/shm/lr-atari800-runcommand-onstart
 wget https://raw.githubusercontent.com/RapidEdwin08/lr-atari800-tweaks/main/runcommand-onstart.diff
-if [ "$(cat /dev/shm/lr-atari800-runcommand-onstart/runcommand-onstart.sh | grep -q '# \[202202\] Updated to include all x3 \[retroarch-core-options.cfg\] Locations:' ; echo $?)" == '1' ]; then
-	git apply "/dev/shm/lr-atari800-runcommand-onstart/runcommand-onstart.diff"
-fi
+git apply "/dev/shm/lr-atari800-runcommand-onstart/runcommand-onstart.diff"
 
 # Install *Updated* [lr-atari800-runcommand-onstart] by {raphkoster}
 mv runcommand-onstart.sh /opt/retropie/configs/atari800/
