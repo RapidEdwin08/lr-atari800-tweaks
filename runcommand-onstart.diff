@@ -1,13 +1,9 @@
---- a/runcommand-onstart.sh	2022-03-29 13:21:32.481968780 -0400
+--- a/runcommand-onstart.sh	2022-03-29 13:41:32.265411979 -0400
 +++ b/runcommand-onstart.sh	2022-03-29 13:20:28.575690272 -0400
-@@ -9,13 +9,13 @@
+@@ -9,9 +9,13 @@
  # get the rom name
  rom="$3"
  
--echo $system >> /dev/shm/params.log
--echo $emu >> /dev/shm/params.log
--echo $rom >> /dev/shm/params.log
--
 -echo $system >&2
 -echo $emu >&2
 -echo $rom >&2
@@ -21,7 +17,7 @@
  
  # apply Atari 8-bit specific patches to retroarch-core-options.cfg and to atari800.cfg
  # [202202] Updated [atari800.cfg] to [lr-atari800.cfg]
-@@ -166,5 +166,5 @@
+@@ -162,5 +166,5 @@
    sed -i 's/ARTIFACT\_NTSC=.*/ARTIFACT\_NTSC=NONE/g' /opt/retropie/configs/atari800/lr-atari800.cfg
    sed -i 's/ARTIFACT\_NTSC\_MODE=./ARTIFACT\_NTSC\_MODE=0/g' /opt/retropie/configs/atari800/lr-atari800.cfg
  else
