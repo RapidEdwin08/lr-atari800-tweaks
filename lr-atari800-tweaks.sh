@@ -396,6 +396,10 @@ if [ "$(cat /opt/retropie/configs/atari800/lr-atari800.cfg | grep -q 'SDL_JOY_' 
 	echo 'SDL_JOY_1_TRIGGER=306' >> /opt/retropie/configs/atari800/lr-atari800.cfg
 fi
 
+# Replace [/home/pi] with current User [$homeDIR] in Playlist - This may Not be a pi
+homeDIR=~/
+sed -i s+'/home/pi/'+"$homeDIR"+ /opt/retropie/configs/atari800/lr-atari800.cfg
+
 # RetroPie v4.7.1 [Segmentation fault ] F1X for [lr-atari800]
 # https://retropie.org.uk/forum/topic/28250/lr-atari800-on-pi-3b-segfaults-at-startup-with-usb-joystick-attached/2
 
