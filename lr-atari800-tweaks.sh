@@ -271,13 +271,13 @@ if [ ! -f /opt/retropie/configs/atari800/lr-atari800.cfg ]; then
 	dialog --no-collapse --title "***N0TICE*** [lr-atari800.cfg] NOT FOUND!" --ok-label MENU --msgbox "$atariLR"  25 75
 fi
 # Confirm Configurations
-confCONFIG=$(dialog --stdout --no-collapse --title "[lr-atari800] Tweaks for [RetroPie <=4.7.1] by: RapidEdwin08 [202203]" \
+confCONFIG=$(dialog --no-collapse --title "[lr-atari800] Tweaks for [RetroPie <=4.7.1] by: RapidEdwin08 [202203]" \
 	--ok-label OK --cancel-label EXIT \
 	--menu "$scriptREF" 25 75 20 \
 	1 "><  APPLY    [lr-atari800] Tweaks for [RetroPie <=4.7.1]  ><" \
 	2 "><  INSTALL  [lr-atari800-runcommand-onstart] {raphkoster}  ><" \
 	3 "><  WIPE ALL [lr-atari800] Settings/Tweaks/runcommand-onstart  ><" \
-	4 "><  REFERENCES  ><")
+	4 "><  REFERENCES  ><" 2>&1>/dev/tty)
 
 if [ "$confCONFIG" == '1' ]; then applyTWEAKS; fi
 if [ "$confCONFIG" == '2' ]; then applyRUNCMD; fi 
