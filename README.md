@@ -29,7 +29,7 @@ Example Entry:
   <game>
     <path>./lr-atari800-tweaks.sh</path>
     <name>[lr-atari-800] Atari Tweaks</name>
-    <desc>APPLY/REMOVE [lr-atari800] Tweaks for [RetroPie &gt;=4.7.1].</desc>
+    <desc>Configure [lr-atari800] Tweaks for [RetroPie &gt;=4.7.1].</desc>
     <image>/home/pi/RetroPie/retropiemenu/icons/lr-atari800-tweaks.png</image>
   </game>
 ```
