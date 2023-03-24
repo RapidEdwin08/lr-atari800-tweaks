@@ -286,7 +286,7 @@ if [ "$confCONFIG" == '1' ]; then
 	--ok-label OK --cancel-label Back \
 	--menu "NOTE: DisableMenuWidgets should No Longer be needed in RetroPie 4.8.x" 25 75 20 \
 		1 "APPLY [lr-atari800] Tweaks Minus [DisableMenuWidgets] [>=4.8.x]" \
-		2 "APPLY [lr-atari800] Tweaks Plus [DisableMenuWidgets] [<=4.7.1]" \
+		2 "APPLY [lr-atari800] Tweaks Plus  [DisableMenuWidgets] [<=4.7.1]" \
 		3 "Back" 2>&1>/dev/tty)
 	# Confirmed - Otherwise Back to Main Menu
 	if [ "$confTWEAK" == '1' ]; then
