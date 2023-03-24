@@ -265,7 +265,7 @@ echo "But you may experience Mixed Results with the GENERIC [lr-atari800.cfg]"
 
 mainMENU()
 {
-
+segfaultFIX=0
 # WARN IF [lr-atari800.cfg] N0T Found 
 if [ ! -f /opt/retropie/configs/atari800/lr-atari800.cfg ]; then
 	dialog --no-collapse --title "***N0TICE*** [lr-atari800.cfg] NOT FOUND!" --ok-label MENU --msgbox "$atariLR"  25 75
@@ -279,8 +279,26 @@ confCONFIG=$(dialog --no-collapse --title "[lr-atari800] Tweaks for [RetroPie <=
 	3 "><  WIPE ALL [lr-atari800] Settings/Tweaks/runcommand-onstart  ><" \
 	4 "><  REFERENCES  ><" 2>&1>/dev/tty)
 
-if [ "$confCONFIG" == '1' ]; then applyTWEAKS; fi
-if [ "$confCONFIG" == '2' ]; then applyRUNCMD; fi 
+if [ "$confCONFIG" == '2' ]; then applyRUNCMD; fi
+if [ "$confCONFIG" == '1' ]; then
+	# Confirm
+	confTWEAK=$(dialog --no-collapse --title "               APPLY [lr-atari800] Tweaks for [RetroPie]               " \
+	--ok-label OK --cancel-label Back \
+	--menu "NOTE: DisableMenuWidgets should No Longer be needed in RetroPie 4.8.x" 25 75 20 \
+		1 "APPLY [lr-atari800] Tweaks Minus [DisableMenuWidgets] [>=4.8.x]" \
+		2 "APPLY [lr-atari800] Tweaks Plus [DisableMenuWidgets] [<=4.7.1]" \
+		3 "Back" 2>&1>/dev/tty)
+	# Confirmed - Otherwise Back to Main Menu
+	if [ "$confTWEAK" == '1' ]; then
+		segfaultFIX=0
+		applyTWEAKS
+	fi
+	if [ "$confTWEAK" == '2' ]; then
+		segfaultFIX=1
+		applyTWEAKS
+	fi
+	mainMENU
+fi
 
 # WIPE [lr-atari800] Settings
 if [ "$confCONFIG" == '3' ]; then
@@ -400,22 +418,30 @@ fi
 homeDIR=~/
 sed -i s+'/home/pi/'+"$homeDIR"+ /opt/retropie/configs/atari800/lr-atari800.cfg
 
-# RetroPie v4.7.1 [Segmentation fault ] F1X for [lr-atari800]
-# https://retropie.org.uk/forum/topic/28250/lr-atari800-on-pi-3b-segfaults-at-startup-with-usb-joystick-attached/2
-
-# Backup atari800 [retroarch.cfg] if not exist already
-if [ ! -f /opt/retropie/configs/atari800/retroarch.cfg.bak800 ]; then cp /opt/retropie/configs/atari800/retroarch.cfg /opt/retropie/configs/atari800/retroarch.cfg.bak800 2>/dev/null; fi
+if [[ "$segfaultFIX" == "1" ]]; then
+	# RetroPie v4.7.1 [Segmentation fault ] F1X for [lr-atari800]
+	# https://retropie.org.uk/forum/topic/28250/lr-atari800-on-pi-3b-segfaults-at-startup-with-usb-joystick-attached/2
 	
-# Apply [Segmentation fault ] F1X atari800 Config
-if [ ! -f /opt/retropie/configs/atari800/retroarch.cfg ]; then echo 'menu_enable_widgets = false' > /opt/retropie/configs/atari800/retroarch.cfg; fi
-if [ $(cat /opt/retropie/configs/atari800/retroarch.cfg | grep -q 'menu_enable_widgets = false' ; echo $?) == '1' ]; then echo 'menu_enable_widgets = false' >> /opt/retropie/configs/atari800/retroarch.cfg; fi
-
-# Backup atari5200 [retroarch.cfg] if not exist already
-if [ ! -f /opt/retropie/configs/atari5200/retroarch.cfg.bak800 ]; then cp /opt/retropie/configs/atari5200/retroarch.cfg /opt/retropie/configs/atari5200/retroarch.cfg.bak800 2>/dev/null; fi
+	# Backup atari800 [retroarch.cfg] if not exist already
+	if [ ! -f /opt/retropie/configs/atari800/retroarch.cfg.bak800 ]; then cp /opt/retropie/configs/atari800/retroarch.cfg /opt/retropie/configs/atari800/retroarch.cfg.bak800 2>/dev/null; fi
 	
-# Apply [Segmentation fault] F1X atari5200 Config
-if [ ! -f /opt/retropie/configs/atari5200/retroarch.cfg ]; then echo 'menu_enable_widgets = false' > /opt/retropie/configs/atari5200/retroarch.cfg; fi
-if [ $(cat /opt/retropie/configs/atari5200/retroarch.cfg | grep -q 'menu_enable_widgets = false' ; echo $?) == '1' ]; then echo 'menu_enable_widgets = false' >> /opt/retropie/configs/atari5200/retroarch.cfg; fi
+	# Apply [Segmentation fault ] F1X atari800 Config
+	if [ ! -f /opt/retropie/configs/atari800/retroarch.cfg ]; then echo 'menu_enable_widgets = false' > /opt/retropie/configs/atari800/retroarch.cfg; fi
+	if [ $(cat /opt/retropie/configs/atari800/retroarch.cfg | grep -q 'menu_enable_widgets = false' ; echo $?) == '1' ]; then echo 'menu_enable_widgets = false' >> /opt/retropie/configs/atari800/retroarch.cfg; fi
+	
+	# Backup atari5200 [retroarch.cfg] if not exist already
+	if [ ! -f /opt/retropie/configs/atari5200/retroarch.cfg.bak800 ]; then cp /opt/retropie/configs/atari5200/retroarch.cfg /opt/retropie/configs/atari5200/retroarch.cfg.bak800 2>/dev/null; fi
+	
+	# Apply [Segmentation fault] F1X atari5200 Config
+	if [ ! -f /opt/retropie/configs/atari5200/retroarch.cfg ]; then echo 'menu_enable_widgets = false' > /opt/retropie/configs/atari5200/retroarch.cfg; fi
+	if [ $(cat /opt/retropie/configs/atari5200/retroarch.cfg | grep -q 'menu_enable_widgets = false' ; echo $?) == '1' ]; then echo 'menu_enable_widgets = false' >> /opt/retropie/configs/atari5200/retroarch.cfg; fi
+else
+	# Backup then Remove the [Segmentation fault] F1X 
+	if [ ! -f /opt/retropie/configs/atari800/retroarch.cfg.bak800 ]; then cp /opt/retropie/configs/atari800/retroarch.cfg /opt/retropie/configs/atari800/retroarch.cfg.bak800 2>/dev/null; fi
+	sed -i -e 's/menu_enable_widgets.*//' /opt/retropie/configs/atari800/retroarch.cfg
+	if [ ! -f /opt/retropie/configs/atari5200/retroarch.cfg.bak800 ]; then cp /opt/retropie/configs/atari5200/retroarch.cfg /opt/retropie/configs/atari5200/retroarch.cfg.bak800 2>/dev/null; fi
+	sed -i -e 's/menu_enable_widgets.*//' /opt/retropie/configs/atari5200/retroarch.cfg
+fi
 
 # Apply Joysticks Config atari800 Config
 if [ $(cat /opt/retropie/configs/atari800/retroarch.cfg | grep -q 'input_libretro_device_p1 = "513"' ; echo $?) == '1' ]; then echo 'input_libretro_device_p1 = "513"' >> /opt/retropie/configs/atari800/retroarch.cfg; fi
