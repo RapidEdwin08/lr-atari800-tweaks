@@ -35,7 +35,7 @@ If you want to GIT it All:
 ```bash
 cd ~
 git clone https://github.com/RapidEdwin08/lr-atari800-tweaks.git
-sudo chmod 755 ~/lr-atari800-tweaks/lr-atari800-tweaks.sh
+chmod 755 ~/lr-atari800-tweaks/lr-atari800-tweaks.sh
 cd ~/lr-atari800-tweaks && ./lr-atari800-tweaks.sh
 
 ```
